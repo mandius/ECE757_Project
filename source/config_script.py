@@ -151,6 +151,13 @@ root = Root(full_system = False, system = system)
 # instantiate all of the objects we've created above
 m5.instantiate()
 
+## DRAM Capacity 512Mbytes -> 29 bits.
+## Processor address space - > 32 bits.
+process.map(0x00001000, 0x00001000, 4096, True)
+process.map(0x00002000, 0x00002000, 4096, True)
+
+
+
 print("Beginning simulation!")
 exit_event = m5.simulate()
 print('Exiting @ tick %i because %s' % (m5.curTick(), exit_event.getCause()))
