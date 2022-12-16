@@ -16,7 +16,7 @@ class MESITwoLevelCache(RubySystem):
 
         super(MESITwoLevelCache, self).__init__()
 
-        self._numL2Caches = 8
+        self._numL2Caches = 1
 
     def setup(self, system, cpus, mem_ctrls):
         """Set up the Ruby cache subsystem. Note: This can't be done in the
@@ -178,11 +178,15 @@ class L2Cache(L2Cache_Controller):
 
         self.version = self.versionCount()
         # This is the cache memory object that stores the cache data and tags
-        self.L2cache = RubyCache(size = '1 MB',
-                                assoc = 16,
-                                start_index_bit = self.getBlockSizeBits(system, num_l2Caches), 
-                                tagAccessLatency=200,
-                                dataAccessLatency= 200)
+        self.L2cache = RubyCache(size = '512kB',
+                                assoc = 8,
+                                start_index_bit = self.getBlockSizeBits(system, num_l2Caches),
+				dir_at_cache = 1,
+		                assoc_ed = 8,
+				assoc_vd = 2,
+				num_max_sharers = 2,
+                                tagAccessLatency = 200,
+                                dataAccessLatency = 200)
         
         self.transitions_per_cycle = '4'
         self.ruby_system = ruby_system
